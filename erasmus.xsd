@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified"
+    xmlns:cv="http://www.curricula.org"
+    targetNamespace="http://www.curricula.org">
+    
+    <!-- Student´s Information -->
+    <xs:element name="studentData">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="cv:name">
+                    <xs:annotation>
+                        <xs:documentation> Student´s name</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element ref="cv:surname">
+                    <xs:annotation>
+                        <xs:documentation> Student´s surname</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element ref="cv:gender">
+                    <xs:annotation>
+                        <xs:documentation>Student´s gender</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element ref="cv:identification">
+                    <xs:annotation>
+                        <xs:documentation>Student´s identification number</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element ref="cv:birthday">
+                    <xs:annotation>
+                        <xs:documentation>Student´s birthday</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element ref="cv:nationality">
+                    <xs:annotation>
+                        <xs:documentation>Student´s nationality</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element ref="cv:address">
+                    <xs:annotation>
+                        <xs:documentation>Student´s address (where the student lives)</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element ref="cv:contact">
+                    <xs:annotation>
+                        <xs:documentation>Student´s contact information</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>        
+    </xs:element>
+    
+    <!-- Student´s curriculum information -->
+    <xs:element name="curriculums">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="curriculum" minOccurs="0" maxOccurs="unbounded">
+                    <xs:annotation>
+                        <xs:documentation>Student´s curriculum.</xs:documentation>
+                    </xs:annotation>
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element ref="cv:studentData">
+                                <xs:annotation>
+                                    <xs:documentation>Student´s personal info.</xs:documentation>
+                                </xs:annotation>                        
+                            </xs:element>
+                            <xs:element ref="cv:academicRecord">
+                                <xs:annotation>
+                                    <xs:documentation>Student´s personal academic info.</xs:documentation>
+                                </xs:annotation>
+                            </xs:element>
+                            <xs:element ref="cv:languajes" minOccurs="1" maxOccurs="unbounded"></xs:element>
+                            <xs:element ref="cv:others" minOccurs="0"></xs:element>
+                        </xs:sequence>
+                        <xs:attribute name="id" type="xs:int" use="required"></xs:attribute>
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+        <xs:key name="SC">
+            <xs:selector xpath="cv:curriculum"></xs:selector>
+            <xs:field xpath="@id"></xs:field>
+        </xs:key>
+    </xs:element>
+    
+    <!-- Student´s Academic record -->
+    <xs:element name="academicRecord">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="cv:unirversity" maxOccurs="unbounded"/>
+                <xs:element ref="cv:careerName" />
+                <xs:element ref="cv:overcomeCredits" />
+                <xs:element ref="cv:averageNote" />
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+   <!-- Stuent´s dates elements declarations -->
+    <xs:element name="name" type="xs:string"></xs:element>
+    <xs:element name="surname" type="xs:string"></xs:element>
+    <xs:element name="birthday" type="xs:date"></xs:element>
+    <xs:element name="gender">
+        <xs:simpleType>
+            <xs:restriction base="xs:string">
+                <xs:enumeration value="male"></xs:enumeration>
+                <xs:enumeration value="female"></xs:enumeration>
+            </xs:restriction>
+        </xs:simpleType>
+    </xs:element>
+    <xs:element name="identification" type="xs:string"></xs:element>
+    <xs:element name="nationality" type="xs:string"></xs:element>
+    <xs:element name="address" type="cv:studentAddress"></xs:element>
+    <xs:element name="contact" type="cv:sContact"></xs:element>
+    
+    <!-- studentAddress element declaration -->
+    <xs:complexType name="studentAddress">
+        <xs:sequence>
+            <xs:choice>
+                <xs:element ref="cv:avenue"></xs:element>
+                <xs:element ref="cv:street"></xs:element>
+                <xs:element ref="cv:boulevard"></xs:element>
+                <xs:element ref="cv:urbanization"></xs:element>
+                <xs:element ref="cv:other"></xs:element>
+            </xs:choice>
+            <xs:element ref="cv:postalCode"></xs:element>            
+            <xs:element ref="cv:country"></xs:element>
+            <xs:choice>                
+                <xs:element ref="cv:town"></xs:element>
+                <xs:element ref="cv:city"></xs:element>
+                <xs:element ref="cv:village"></xs:element>
+                <xs:element ref="cv:other"></xs:element>
+            </xs:choice>
+        </xs:sequence>
+    </xs:complexType>
+    
+    <xs:element name="street" type="xs:string"></xs:element>
+    <xs:element name="avenue" type="xs:string"></xs:element>
+    <xs:element name="boulevard" type="xs:string"></xs:element>
+    <xs:element name="urbanization" type="xs:string"></xs:element>
+    <xs:element name="other" type="xs:string"></xs:element>
+    <xs:element name="postalCode" type="xs:int"></xs:element>
+    <xs:element name="country" type="xs:string"></xs:element>
+    <xs:element name="town" type="xs:string"></xs:element>
+    <xs:element name="city" type="xs:string"></xs:element>
+    <xs:element name="village" type="xs:string"></xs:element>
+    
+    <!-- studentContact element declaration -->
+    <xs:complexType name="sContact">
+        <xs:sequence>
+            <xs:element ref="cv:email"></xs:element>
+            <xs:element ref="cv:personalPhone" maxOccurs="1"></xs:element>
+            <xs:element ref="cv:housePhone" maxOccurs="1"></xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    
+    <xs:element name="email" type="xs:string"></xs:element>
+    <xs:element name="personalPhone" type="xs:int"></xs:element>
+    <xs:element name="housePhone" type="xs:int"></xs:element>
+    
+    <!-- Student´s AcademicRecord element declaration -->
+    <xs:element name="unirversity" type="cv:sUniversity"/>
+    <xs:element name="facultyName" type="xs:string" />
+    <xs:element name="universityWeb" type="xs:anyURI" />
+    <xs:element name="facultyWeb" type="xs:anyURI" />
+    <xs:element name="careerName" type="xs:string" />
+    <xs:element name="overcomeCredits" type="xs:int" />
+    <xs:element name="averageNote" type="xs:double" />
+    
+    <xs:complexType name="sUniversity">
+        <xs:sequence>
+            <xs:element ref="cv:name" maxOccurs="unbounded" />
+            <xs:element ref="cv:facultyName" maxOccurs="unbounded" />
+            <xs:element ref="cv:universityWeb" minOccurs="0" />
+            <xs:element ref="cv:facultyWeb" minOccurs="0" />
+            <xs:element ref="cv:housePhone"></xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    
+    <!-- Student´s languajes element declaration -->
+    <xs:element name="languajes">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="cv:name"></xs:element>
+                <xs:element ref="cv:certificate"></xs:element>
+            </xs:sequence>
+        </xs:complexType>      
+    </xs:element>
+    <xs:element name="certificate" type="xs:string"></xs:element>
+    
+    <!-- Others element declaration -->
+    <xs:element name="others">
+        <xs:complexType>
+            <xs:sequence maxOccurs="unbounded">
+                <xs:any namespace="##any"></xs:any>
+            </xs:sequence>            
+        </xs:complexType>
+    </xs:element>
+    
+</xs:schema>
